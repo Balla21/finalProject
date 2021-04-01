@@ -1,0 +1,36 @@
+.error-add-product{
+    color:red;
+}
+
+.error-add-review{
+    color:red;
+}
+
+.my-banner {
+    width: 100%;
+    font-size: 200%;
+    text-align: center;
+    color: white;
+    background-color: blue;
+}
+
+li{
+    padding-right: 15px;
+}
+
+.menu-pre-auth{
+    display: block;
+}
+
+.menu-post-auth{
+    display: none;
+}
+
+
+input {
+    display: block;
+    margin: 8px 0;
+    padding: 8px 2px;
+    border-width: 0 0;
+    width: 100%;
+}

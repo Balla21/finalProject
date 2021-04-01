@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>My Store</title>
+  </head>
+  <body>
+    
+    <div class="my-banner"> Online Store </div>
+
+    <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <!--button features -->
+              <li class="nav-item">
+                <button class="btn btn-outline-danger menu-pre-auth" data-toggle="modal" data-target="#modal-form-signin"> Sign In/Up </button>
+              </li>
+              <li class="nav-item">
+                <button id="menu-button-home" class="btn btn-outline-primary menu-home-auth"> Home</button>
+              </li>
+
+              <!-- Reviews buttons -->
+                 <li class="nav-item">
+                  <button id="menu-button-reviews" class="btn btn-outline-primary menu-pre-auth" > Reviews </button>
+                </li>
+              <!-- Reviews buttons -->
+
+              <!-- User buttons -->
+                <li class="nav-item">
+                  <button id="menu-button-catalogs" class="btn btn-outline-primary menu-post-auth menu-user-auth "> Products </button>
+                </li>
+            
+                <li class="nav-item">
+                  <button id="menu-button-purchases" class="btn btn-outline-primary menu-post-auth menu-user-auth ">Purchases </button>
+                </li>
+
+                <li class="nav-item">
+                  <button id="menu-user-reviews" class="btn btn-outline-primary menu-post-auth menu-user-auth ">My Reviews </button>
+                </li>
+              <!-- User  buttons -->
+
+              <!-- Admin buttons-->
+                <li class="nav-item">
+                  <button class="btn btn-outline-primary menu-post-auth menu-admin-auth" id="menu-button-product" >Products</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="btn btn-outline-primary menu-post-auth menu-admin-auth" id="menu-button-user" >Users</button>
+                </li>
+              <!--Admin buttons-->
+
+      
+                <li class="nav-item">
+                  <button id="menu-button-signout" class="btn btn-outline-danger menu-post-auth menu-user-auth menu-admin-auth "> Sign Out </button>
+                </li>
+        <!--button features -->
+            </ul>
+
+
+            <!-- User features -->
+                <!-- Shopping Cart -->
+                <button id="menu-button-shoppingcart" class="menu-post-auth menu-user-auth btn btn-outline-success">
+                  <img src="images/shoppingcart.png" width="30px">
+                  ( <span id="shoppingcart-count">0</span> )
+                </button>
+              <!-- Shopping cart-->
+
+              <!-- Profile -->
+                <button id="menu-button-profile" class="btn btn-outline-primary menu-post-auth menu-user-auth"> Profile </button> 
+              <!--Profile-->
+          <!--User features -->
+        </div>
+      </nav>
+    <!-- Navbar-->
+
+     <!--Sign Up modal-->
+     <div class="modal fade" id="modal-form-signup" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-signup-label"> Create New Account</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" >
+              <form id="form-signup" method="post">
+                <div>
+                  <input type="email" name="email" placeholder="email address" required>
+                </div>
+                <div>
+                  <input type="password" name="password" placeholder="password" required minlength="6">
+                </div>
+                <div>
+                  <input type="password" name="passwordConfirm" placeholder="Confirm password" required minlength="6">
+                  <span id="form-signup-password-error" style="color: red;"></span>
+                </div>
+                <button type="submit" class="btn btn-outline-primary">Create Account</button>
+              </form> 
+          </div>
+        </div>
+      </div>
+    </div>
+  <!--Sign up Modal-->
+
+    <!-- Form Sign In Modal  -->
+      <div class="modal fade" id="modal-form-signin" data-backdrop="static" data-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-form-signin-label">Sign In, Please</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="form-signin" method="post">
+                <div>
+                  <input type="email" name="email" placeholder="email address">
+                </div>
+                <div>
+                  <input type="password" name="password" placeholder="password">
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-outline-primary"> Sign In </button>
+                </div>
+              </form>
+              <div>
+                No account yet? 
+                <button id="button-form-signup" class="btn btn-outline-info"> Create New Account </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Sign In Modal  -->
+
+    <!--Modal Popup Info Box-->
+      <!-- Modal -->
+      <div class="modal fade" id="modal-popup-info" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-popup-info-title"></h5> 
+            </div>
+            <div class="modal-body" id="modal-popup-info-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!--Modal Popup Info-->
+
+  <!--Modal Transaction details -->
+  <div class="modal fade" id="modal-transaction" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-purchases-title"> title goes here</h5>
+        </div>
+        <div class="modal-body" id="modal-purchases-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modal purchased items-->
+     <!-- Modal add Product -->
+        <div class="modal fade" id="modal-add-product" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal-add-product-label">Add New Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="form-add-product" method="post">
+                    <div>
+                        <input type="text" name="name" placeholder="product name"> 
+                        <p id="error-add-name" class="error-add-product"></p>
+                    </div>
+                    <div>
+                        <input type="text" name="price" placeholder="price ($)">
+                        <p id="error-add-price" class="error-add-product"></p> 
+                    </div>
+                    <div>
+                        Summary <br/><textarea cols="40" name="summary" ></textarea>
+                        <p id="error-add-summary" class="error-add-product"></p> 
+                    </div>
+                    <div>
+                      <img id="form-add-image-tag" style="display: block;" >
+                      <input id="form-add-image-button" type="file" value="upload">
+                      <p id="error-add-image" class="error-add-product"></p> 
+                    </div>
+                    <div>
+                      <button type="submit" class="btn btn-outline-primary"> Add </button> 
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    <!--Modal add Product-->
+
+    <!--Modal Edit Product -->
+    <div class="modal fade" id="modal-edit-product" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-edit-product-label">Update Product</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="form-edit-product" method="post">
+              <input type="hidden" name="docId">
+              <input type="hidden" name="imageName">
+              <div>
+                Name : <input type="text" name="name">
+                <p id="error-edit-name" class="error-add-product"></p>
+              </div>
+              <div>
+                Price : <input type="text" name="price">
+                <p id="error-edit-price" class="error-add-product"></p>
+              </div>
+              <div>
+                Summary : <br> <textarea name="summary"> </textarea>
+                <p id="error-edit-summary" class="error-add-product"></p>
+              </div>
+              <div>
+                <img id="form-edit-image-tag" style="display: block;">
+                <input type="file" id="form-edit-image-button" value="upload" />
+              </div>
+              <div>
+                <button type="submit" class="btn btn-outline-primary"> Update </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Modal Edit Product-->
+
+    <!-- Modal comment product-->
+        <div class="modal fade" id="modal-review-product" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal-review-product-label">Review Purchased Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="form-review-product" method="post">
+                  <input type="hidden" name="docId">
+                  <div>
+                    <img id="form-review-image-tag" style="display: block;">
+                  </div>
+                  <div>
+                    Name : <input type="text" name="name" disabled>
+                    
+                  </div>
+                  <div>
+                    Price : <input type="text" name="price" disabled>
+                  </div>
+
+                  <div>
+                    Review Product : <br> <textarea name="review" cols="50"> </textarea>
+                    <p id="error-add-review" class="error-add-product"></p>
+                  </div>
+
+                  <div>
+                    <button type="submit" class="btn btn-outline-primary"> Send </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    <!-- Modal comment product-->
+
+    <!-- Modal comment product-->
+    <div class="modal fade" id="modal-edit-review" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-edit-review-label">Edit Review</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="form-edit-review" method="post">
+              <input type="hidden" name="reviewId">
+              <div>
+                <img id="form-edit-review-image-tag" style="display: block;">
+              </div>
+              <div>
+                Name : <input type="text" name="name" disabled>
+                
+              </div>
+  
+              <div>
+                Your comment : <br> <textarea name="editReview" cols="50"> </textarea>
+                <p id="error-edit-review" class="error-add-product"></p>
+              </div>
+
+              <div>
+                <button type="submit" class="btn btn-outline-primary"> Update Review </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- Modal comment product-->
+
+    <!-- Main content -->
+        <div id="main-content" class="jumbotron"> </div>
+    <!-- Main content -->
+
+
+    <!-- Firebase libraries -->
+        <script defer src="/__/firebase/8.2.7/firebase-app.js"></script>
+        <script defer src="/__/firebase/8.2.7/firebase-auth.js"></script>
+        <script defer src="/__/firebase/8.2.7/firebase-firestore.js"></script>
+        <script defer src="/__/firebase/8.2.7/firebase-functions.js"></script>
+        <script defer src="/__/firebase/8.2.7/firebase-storage.js"></script>
+        <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+        <script type="module" src="app.js"></script>
+
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+    <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
