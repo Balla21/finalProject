@@ -238,4 +238,5 @@ export async function searchProduct(keyword){
         productList.push(prod);
     });
     return productList;
+
 }

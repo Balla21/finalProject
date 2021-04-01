@@ -21,6 +21,7 @@ export function addEventListeners(){
         }
         search_page(searchKeyword);
         Util.enableButton(searchButton, label);
+        e.target.searchKeyword.value = "";
     });
 
 
@@ -142,25 +143,14 @@ export async function search_page(searchKeyword){
     try{
         // Perform a search from database
         products = await FirebaseController.searchProduct(searchKeyword);
-        if (cart && cart.items){
-            cart.items.forEach(item => {
-                const product = products.find(p => {
-                    return item.docId == p.docId;
-                    
-                })
-                //console.log(product);
-                //product.qty = item.qty;
-                //product.qty = 0;
-            })
-        }
-       
+        buildSearchPage(products);
     }
     catch(e){
         if (Constant.DEV) console.log(e);
         return;
     }
     
-    buildSearchPage(products);
+   
 
      // + button add event listener
      const plusForms = document.getElementsByClassName("form-increase-qty");
@@ -173,6 +163,18 @@ export async function search_page(searchKeyword){
              Element.shoppingcartCount.innerHTML = cart.getTotalQty();
          });
      }
+
+     // - button add event listener
+    const minusForms = document.getElementsByClassName("form-decrease-qty");
+    for(let i =0; i <minusForms.length; i++){
+        minusForms[i].addEventListener("submit", (e) => {
+            e.preventDefault();
+            const p = products[e.target.index.value];
+            cart.removeItem(p);
+            document.getElementById(`qty-${p.docId}`).innerHTML = ( p.qty == null || p.qty == 0 ) ? "Add" : p.qty;
+            Element.shoppingcartCount.innerHTML = cart.getTotalQty();
+        });
+    }
 }
 
 //build search product page
