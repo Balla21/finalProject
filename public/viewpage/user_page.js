@@ -9,6 +9,20 @@ import { Product } from "../model/product.js";
 
 
 export function addEventListeners(){
+    //search page
+    Element.formSearch.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const searchButton = Element.formSearch.getElementsByTagName("button")[0];
+        const label = Util.disableButton(searchButton);
+        const searchKeyword = e.target.searchKeyword.value;
+        if (searchKeyword.length == 0){
+            Util.popupInfo("No search specified", "Enter a word to search");
+            return 
+        }
+        search_page(searchKeyword);
+        Util.enableButton(searchButton, label);
+    });
+
 
     Element.menuButtonCatalog.addEventListener("click",  ()=>{
         history.pushState(null, null,Routes.routePathname.USER);
@@ -23,7 +37,7 @@ export let cart
 let products;
 
 export async function user_page(){
-    let html = "<h1>Enjoy your time at our store </h1>";
+    let html = ` <h1>Enjoy your time at our store </h1>`;
 
     //Get list of product
     try{
@@ -116,4 +130,60 @@ export function getShoppingCartFromLocalStorage(){
         cart = new ShoppingCart(Auth.currentUser.uid);
     }
     Element.shoppingcartCount.innerHTML = cart.getTotalQty();
+}
+
+//search product page
+export async function search_page(searchKeyword){
+    if (!Auth.currentUser){
+        Element.mainContent.innerHTML = "<h1>Protected Page</h1>"
+        return
+    }
+    
+    try{
+        // Perform a search from database
+        products = await FirebaseController.searchProduct(searchKeyword);
+        if (cart && cart.items){
+            cart.items.forEach(item => {
+                const product = products.find(p => {
+                    return item.docId == p.docId;
+                    
+                })
+                //console.log(product);
+                //product.qty = item.qty;
+                //product.qty = 0;
+            })
+        }
+       
+    }
+    catch(e){
+        if (Constant.DEV) console.log(e);
+        return;
+    }
+    
+    buildSearchPage(products);
+
+     // + button add event listener
+     const plusForms = document.getElementsByClassName("form-increase-qty");
+     for(let i =0; i <plusForms.length; i++){
+         plusForms[i].addEventListener("submit", (e) => {
+             e.preventDefault();
+             const p = products[e.target.index.value];
+             cart.addItem(p);
+             document.getElementById(`qty-${p.docId}`).innerHTML = p.qty;
+             Element.shoppingcartCount.innerHTML = cart.getTotalQty();
+         });
+     }
+}
+
+//build search product page
+export function buildSearchPage(products){
+    // product quantity
+    let html = "";
+    let index = 0;
+    products.forEach( product => {
+        html += buildProductCard(product, index);
+        ++index;
+    });
+
+    Element.mainContent.innerHTML = html;
 }

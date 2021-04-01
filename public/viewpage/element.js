@@ -57,6 +57,8 @@ export const formEditReviewError = {
     reviewCommentError: document.getElementById("error-edit-review"),
 }
 
+//search products
+export const formSearch = document.getElementById("form-search");
 
 
 //modal
