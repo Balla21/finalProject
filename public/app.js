@@ -13,6 +13,7 @@ import * as AdminUserPage from "./viewpage/admin_user_page.js";
 import * as UserReviewProductPage from "./controller/user_review_product_page.js";
 import * as UserReviewPage from "./viewpage/user_reviews_page.js";
 import * as UserEditReview from "./controller/user_edit_review_page.js";
+import * as AdminPurchasesHistoryPage from "./viewpage/admin_purchases_history.js";
 
 window.onload = () => {
     const path = window.location.pathname;
@@ -39,3 +40,4 @@ UserReviewProductPage.addEventListeners();
 ReviewPage.addEventListeners();
 UserReviewPage.addEventListeners();
 UserEditReview.addEventListeners();
+AdminPurchasesHistoryPage.addEventListeners();

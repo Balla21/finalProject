@@ -26,8 +26,8 @@ exports.be_updateComment = functions.https.onCall(updateComment);
 //backend for delete account
 exports.be_deleteAccountInfo = functions.https.onCall(deleteAccountInfo);
 
-
-
+//backend for purchases list
+exports.be_purchaseHistoryList = functions.https.onCall(purchaseHistoryList)
 
 
 //admin verification
@@ -251,5 +251,29 @@ async function deleteAccountInfo(uid, context){
   catch(e){
     if(Constant.DEV) console.log(e);
     throw new functions.https.HttpsError("internal", "deleteAccountInfo failed");
+  }
+}
+
+
+//purchase history list
+async function purchaseHistoryList(data, context){
+  if(!isAdmin(context.auth.token.email)){
+    if(Constant.DEV) console.log("not admin", context.auth.token.email );
+    throw new functions.https.HttpsError("unauthenicated", "Only admin can invoke this function");
+  }
+  try{
+    let parray = [];
+    const snapshot = await admin.firestore().collection(Constant.collectionName.PURCHASES).orderBy('timestamp', "desc").get();
+    snapshot.forEach( doc => {
+      const {uid, items, timestamp} = doc.data();
+      const p = {uid, items, timestamp};
+      p.docId = doc.id;
+      parray.push(p);
+    });
+    return parray;
+  }
+  catch(e){
+    if(Constant.DEV) console.log(e);
+    throw new functions.https.HttpsError("internal", "purchaseHistoryList failed");
   }
 }

@@ -1,15 +1,17 @@
 import * as Element from "./element.js";
 import * as Routes from "../controller/routes.js";
+import * as Auth from "../controller/auth.js";
+import * as Util from "./util.js";
 import * as FirebaseController from "../controller/firebase_controller.js";
 import * as Constant from "../model/constant.js";
-import * as Util from "./util.js";
-import * as Auth from "../controller/auth.js";
+import * as UserPage from "./user_page.js";
 import { ShoppingCart } from "../model/shoppingcart.js";
 import { Product } from "../model/product.js";
 
+let cart
+let productList;
 
 export function addEventListeners(){
-    //search page
     Element.formSearch.addEventListener("submit", async (e) => {
         e.preventDefault();
         const searchButton = Element.formSearch.getElementsByTagName("button")[0];
@@ -21,77 +23,76 @@ export function addEventListeners(){
         }
         search_page(searchKeyword);
         Util.enableButton(searchButton, label);
-        e.target.searchKeyword.value = "";
     });
 
-
-    Element.menuButtonCatalog.addEventListener("click",  () => {
-        history.pushState(null, null,Routes.routePathname.USER);
-        user_page();
-    });
-
-    history.pushState(null, null,Routes.routePathname.USER);
-    user_page();
 }
 
-export let cart
-let products;
-
-export async function user_page(){
-    let html = ` <h1>Enjoy your time at our store </h1>`;
-
-    //Get list of product
+export async function search_page(searchKeyword){
+    if (!Auth.currentUser){
+        Element.mainContent.innerHTML = "<h1>Protected Page</h1>"
+        return
+    }
+    
     try{
-        products = await FirebaseController.getProductList();
+        // Perform a search from database
+        productList = await FirebaseController.searchProduct(searchKeyword);
         if (cart && cart.items){
             cart.items.forEach(item => {
-                const product = products.find(p => {
+                const product = productList.find(p => {
                     return item.docId == p.docId;
                 })
+                console.log(item.qty);
                 product.qty = item.qty;
             })
         }
-         // product quantity
-         let index = 0;
-         products.forEach( product => {
-             html += buildProductCard(product, index);
-             ++index;
-         });
     }
     catch(e){
-         if(Constant.DEV) console.log(e);
-         Util.popupInfo("getProductList Error", JSON.stringify(e));
-         return;
+        if (Constant.DEV) console.log(e);
+        return;
     }
-    Element.mainContent.innerHTML = html; 
     
-    
+    buildSearchPage(productList);
 
-    // + button add event listener
+    
+    history.pushState(null, null, Routes.routePathname.SEARCH + "#" + searchKeyword );
+
+      // + button add event listener
     const plusForms = document.getElementsByClassName("form-increase-qty");
     for(let i =0; i <plusForms.length; i++){
         plusForms[i].addEventListener("submit", (e) => {
             e.preventDefault();
-            const p = products[e.target.index.value];
+            const p = productList[e.target.index.value];
             cart.addItem(p);
             document.getElementById(`qty-${p.docId}`).innerHTML = p.qty;
             Element.shoppingcartCount.innerHTML = cart.getTotalQty();
         });
     }
 
-    // - button add event listener
-    const minusForms = document.getElementsByClassName("form-decrease-qty");
-    for(let i =0; i <minusForms.length; i++){
-        minusForms[i].addEventListener("submit", (e) => {
-            e.preventDefault();
-            const p = products[e.target.index.value];
-            cart.removeItem(p);
-            document.getElementById(`qty-${p.docId}`).innerHTML = ( p.qty == null || p.qty == 0 ) ? "Add" : p.qty;
-            Element.shoppingcartCount.innerHTML = cart.getTotalQty();
-        });
-    }
+     // - button add event listener
+     const minusForms = document.getElementsByClassName("form-decrease-qty");
+     for(let i =0; i <minusForms.length; i++){
+         minusForms[i].addEventListener("submit", (e) => {
+             e.preventDefault();
+             const p = productList[e.target.index.value];
+             cart.removeItem(p);
+             document.getElementById(`qty-${p.docId}`).innerHTML = ( p.qty == null || p.qty == 0 ) ? "Add" : p.qty;
+             Element.shoppingcartCount.innerHTML = cart.getTotalQty();
+         });
+     }
 }
 
+//build search product page
+export function buildSearchPage(productList){
+    // product quantity
+    let html = "";
+    let index = 0;
+    productList.forEach( product => {
+        html += buildProductCard(product, index);
+        ++index;
+    });
+
+    Element.mainContent.innerHTML = html;
+}
 
 //Display product information
 function buildProductCard(product, index){
@@ -133,57 +134,3 @@ export function getShoppingCartFromLocalStorage(){
     Element.shoppingcartCount.innerHTML = cart.getTotalQty();
 }
 
-//search product page
-export async function search_page(searchKeyword){
-    if (!Auth.currentUser){
-        Element.mainContent.innerHTML = "<h1>Protected Page</h1>"
-        return
-    }
-    
-    try{
-        // Perform a search from database
-        products = await FirebaseController.searchProduct(searchKeyword);
-        buildSearchPage(products);
-    }
-    catch(e){
-        if (Constant.DEV) console.log(e);
-        return;
-    }
-    
-     // + button add event listener
-     const plusForms = document.getElementsByClassName("form-increase-qty");
-     for(let i =0; i <plusForms.length; i++){
-         plusForms[i].addEventListener("submit", (e) => {
-             e.preventDefault();
-             const p = products[e.target.index.value];
-             cart.addItem(p);
-             document.getElementById(`qty-${p.docId}`).innerHTML = p.qty;
-             Element.shoppingcartCount.innerHTML = cart.getTotalQty();
-         });
-     }
-
-     // - button add event listener
-    const minusForms = document.getElementsByClassName("form-decrease-qty");
-    for(let i =0; i <minusForms.length; i++){
-        minusForms[i].addEventListener("submit", (e) => {
-            e.preventDefault();
-            const p = products[e.target.index.value];
-            cart.removeItem(p);
-            document.getElementById(`qty-${p.docId}`).innerHTML = ( p.qty == null || p.qty == 0 ) ? "Add" : p.qty;
-            Element.shoppingcartCount.innerHTML = cart.getTotalQty();
-        });
-    }
-}
-
-//build search product page
-export function buildSearchPage(products){
-    // product quantity
-    let html = "";
-    let index = 0;
-    products.forEach( product => {
-        html += buildProductCard(product, index);
-        ++index;
-    });
-
-    Element.mainContent.innerHTML = html;
-}

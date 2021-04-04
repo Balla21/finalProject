@@ -7,6 +7,7 @@ export const menuShoppingcart = document.getElementById("menu-button-shoppingcar
 export const menuButtonPurchases = document.getElementById("menu-button-purchases");
 export const menuButtonCatalog = document.getElementById("menu-button-catalogs");
 
+
 //review button
 export const menuButtonReviews = document.getElementById("menu-button-reviews");
 export const menuButtonUserReviews = document.getElementById("menu-user-reviews");
@@ -16,6 +17,9 @@ export const modalTransactionBody = document.getElementById("modal-purchases-bod
 export const menuProducts = document.getElementById("menu-button-product");
 export const menuUsers = document.getElementById("menu-button-user");
 export const buttonSignUp = document.getElementById("button-form-signup");
+
+//purchase admin button
+export const menuButtonPurchasesHistory = document.getElementById("menu-button-purchases-history");
 
 
 

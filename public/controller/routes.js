@@ -4,9 +4,13 @@ import * as ReviewPage from "../viewpage/reviews_page.js";
 import * as UserProfilePage from "../viewpage/user_profile_page.js";
 import * as UserShoppingPage from "../viewpage/user_shoppingcart_page.js";
 import * as UserPurchasesPage from "../viewpage/user_purchases_page.js";
+import * as UserReviewPage from "../viewpage/user_reviews_page.js";
+
+//Admin routes
 import * as AdminProductPage from "../viewpage/admin_product_page.js";
 import * as AdminUsersPage from "../viewpage/admin_user_page.js";
-import * as UserReviewPage from "../viewpage/user_reviews_page.js";
+import * as AdminPurchasesHistoryPage from "../viewpage/admin_purchases_history.js";
+
 
 
 export const routePathname = {
@@ -19,7 +23,7 @@ export const routePathname = {
     USERPURCHASES: "/purchases",
     ADMINPRODUCTS: "/admin",
     ADMINUSERS: "/customers",
-   
+    ADMINPURCHASESHISTORY: "/purchasesHistory",
 }
 
 export const routes = [
@@ -32,6 +36,7 @@ export const routes = [
     {pathname: routePathname.USERPURCHASES, page:UserPurchasesPage.user_purchases_page},
     {pathname: routePathname.ADMINPRODUCTS, page:AdminProductPage.product_page},
     {pathname: routePathname.ADMINUSERS, page:AdminUsersPage.user_page},
+    {pathname: routePathname.ADMINPURCHASESHISTORY, page:AdminPurchasesHistoryPage.admin_purchases_page},
 ];
 
 

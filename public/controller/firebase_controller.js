@@ -228,6 +228,7 @@ export async function deleteAccountInfo(uid){
     await cf_deleteAccountInfo(uid);
 }
 
+
 //search product list
 export async function searchProduct(keyword){
     const productList = [];
@@ -238,5 +239,30 @@ export async function searchProduct(keyword){
         productList.push(prod);
     });
     return productList;
+}
 
+//search user account
+export async function searchUser(username){
+    const userList = [];
+    const snapShot = await firebase.firestore().collection(Constant.collectionName.ACCOUNT_INFO).where("name","==",username).get();
+    snapShot.forEach(doc => {
+        const user = new AccountInfo(doc.data());
+        user.docId = doc.id;
+        userList.push(user);
+    });
+    return userList;
+}
+
+
+//Get purchase history list
+const cf_purchaseHistoryList = firebase.functions().httpsCallable("be_purchaseHistoryList");
+export async function getPurchaseHistoryList(){
+    const purchases = [];
+    const result = await  cf_purchaseHistoryList();
+    result.data.forEach(data => {
+        const p = new ShoppingCart(data);
+        p.docId = data.docId;
+        purchases.push(p);
+    }); 
+    return purchases;
 }
