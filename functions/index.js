@@ -27,7 +27,12 @@ exports.be_updateComment = functions.https.onCall(updateComment);
 exports.be_deleteAccountInfo = functions.https.onCall(deleteAccountInfo);
 
 //backend for purchases list
-exports.be_purchaseHistoryList = functions.https.onCall(purchaseHistoryList)
+exports.be_purchaseHistoryList = functions.https.onCall(purchaseHistoryList);
+
+//backend for feedback list
+exports.be_feedBackList = functions.https.onCall(feedBackList)
+
+
 
 
 //admin verification
@@ -277,3 +282,28 @@ async function purchaseHistoryList(data, context){
     throw new functions.https.HttpsError("internal", "purchaseHistoryList failed");
   }
 }
+
+
+//feedbacks list
+async function feedBackList(data, context) {
+  if(!isAdmin(context.auth.token.email)){
+    if(Constant.DEV) console.log("not admin", context.auth.token.email );
+    throw new functions.https.HttpsError("unauthenicated", "Only admin can invoke this function");
+  }
+  try{
+    let fbarray = [];
+    const snapshot = await admin.firestore().collection(Constant.collectionName.COMMENTS).get();
+    snapshot.forEach( doc => {
+      const {userName, productName, review,  timestamp, imageURL} = doc.data();
+      const feedback = {userName, productName, review,  timestamp, imageURL};
+      feedback.docId = doc.id;
+      fbarray.push(feedback);
+    });
+    return fbarray;
+  }
+  catch(e){
+    if(Constant.DEV) console.log(e);
+    throw new functions.https.HttpsError("internal", "feedBackList failed");
+  }
+}
+

@@ -10,6 +10,7 @@ export const menuButtonCatalog = document.getElementById("menu-button-catalogs")
 
 //review button
 export const menuButtonReviews = document.getElementById("menu-button-reviews");
+export const menuButtonFeedbacks = document.getElementById("menu-button-feedbacks");
 export const menuButtonUserReviews = document.getElementById("menu-user-reviews");
 
 export const modalTransactionTitle = document.getElementById("modal-purchases-title");

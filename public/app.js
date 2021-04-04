@@ -14,6 +14,7 @@ import * as UserReviewProductPage from "./controller/user_review_product_page.js
 import * as UserReviewPage from "./viewpage/user_reviews_page.js";
 import * as UserEditReview from "./controller/user_edit_review_page.js";
 import * as AdminPurchasesHistoryPage from "./viewpage/admin_purchases_history.js";
+import * as AdminFeedBackPage from "./viewpage/admin_feedbacks_page.js";
 
 window.onload = () => {
     const path = window.location.pathname;
@@ -41,3 +42,4 @@ ReviewPage.addEventListeners();
 UserReviewPage.addEventListeners();
 UserEditReview.addEventListeners();
 AdminPurchasesHistoryPage.addEventListeners();
+AdminFeedBackPage.addEventListeners();

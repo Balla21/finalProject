@@ -72,7 +72,7 @@ export async function user_review_page(){
                 Util.popupInfo("Deleted ", `review deleted: review-${reviewId}`);
             } catch (e) {
                 if (Constant.DEV) console.log(e);
-                Util.popupInfo("Delete user  error", JSON.stringify(e));
+                Util.popupInfo("Delete review  error", JSON.stringify(e));
             } 
         });
     }

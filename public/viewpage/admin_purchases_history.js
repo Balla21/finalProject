@@ -36,5 +36,90 @@ export async function admin_purchases_page(){
         Util.popupInfo("Purchase History error", JSON.stringify(e));
         return;
     }
-    console.log(adminCarts);
+
+    
+
+    //display all purchases
+    let html = `<h1> All Purchases from the Online store </h1>`;
+
+    html += `
+         <table class="table table-striped">
+             <tbody>  
+    `;
+     for(let index = 0; index < adminCarts.length ; index++){
+         html += `
+             <tr> 
+                 <td> 
+                     <form class="admin-purchase-history" method="post" >
+                         <input type="hidden" name="index" value="${index}">
+                         <button class="btn btn-outline-secondary" type="submit"> 
+                             ${ new Date(adminCarts[index].uid.timestamp).toString() }
+                         </button>
+                     </form>
+                 </td>
+             </tr>
+         `
+     }
+     html += `</tbody></table>`;
+     console.log(adminCarts[0]);
+     Element.mainContent.innerHTML = html;
+
+  
+    //history event listener
+    const adminHistoryForms = document.getElementsByClassName("admin-purchase-history");
+    for(let i=0; i < adminHistoryForms.length ; i++){
+        adminHistoryForms[i].addEventListener("submit", async (e) => {
+            e.preventDefault()
+            const index = e.target.index.value;
+            Element.modalTransactionTitle.innerHTML = `Purchased At: ${ new Date(adminCarts[index].uid.timestamp).toString() }` ;
+            Element.modalTransactionBody.innerHTML = buildTransactionDetails( adminCarts[index] );
+
+            //display list of all transaction
+            $("#modal-transaction").modal("show");
+        });
+    }
+
 }
+
+
+//Transaction card details 
+function buildTransactionDetails(cart){
+    let html = `
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col"> Image </th>
+                <th scope="col"> Name </th>
+                <th scope="col"> Price </th>
+                <th scope="col"> Qty </th>
+                <th scope="col"> Subtotal </th>
+                <th scope="col" width="50"> Summary </th>
+            </tr>
+            </thead>
+            <tbody>
+    `;
+    cart.uid.items.forEach(item => {
+        html += `
+            <tr> 
+                
+                <td><img src="${item.imageURL}" width="150px"> </td>
+                <td> ${item.name}  </td>
+                <td> ${ Util.currency(item.price) }  </td>
+                <td> ${item.qty}  </td>
+                <td> ${ Util.currency(item.qty * item.price) }  </td>
+                <td> ${item.summary}  </td>
+                
+                <td> 
+                    <form class="form-review-product" method="post">
+                        <input type="hidden" name="docId" value="${item.docId}">
+                        <button class="btn btn-outline-primary" type="submit"> Review </button>
+                    </form>
+                </td>
+            </tr>
+        `
+     });
+     html += `</tbody></table>`;
+     html += `<div style="font-size: 150%;" >Total : ${cart.getTotalPrice()} </div>`;
+
+     return html;
+}   

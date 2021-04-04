@@ -10,6 +10,7 @@ import * as UserReviewPage from "../viewpage/user_reviews_page.js";
 import * as AdminProductPage from "../viewpage/admin_product_page.js";
 import * as AdminUsersPage from "../viewpage/admin_user_page.js";
 import * as AdminPurchasesHistoryPage from "../viewpage/admin_purchases_history.js";
+import * as AdminFeedBackPage from "../viewpage/admin_feedbacks_page.js";
 
 
 
@@ -24,6 +25,7 @@ export const routePathname = {
     ADMINPRODUCTS: "/admin",
     ADMINUSERS: "/customers",
     ADMINPURCHASESHISTORY: "/purchasesHistory",
+    ADMINFEEDBACKS: "/feedBacks",
 }
 
 export const routes = [
@@ -37,6 +39,7 @@ export const routes = [
     {pathname: routePathname.ADMINPRODUCTS, page:AdminProductPage.product_page},
     {pathname: routePathname.ADMINUSERS, page:AdminUsersPage.user_page},
     {pathname: routePathname.ADMINPURCHASESHISTORY, page:AdminPurchasesHistoryPage.admin_purchases_page},
+    {pathname: routePathname.ADMINFEEDBACKS, page:AdminFeedBackPage.feedback_page},
 ];
 
 

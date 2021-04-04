@@ -266,3 +266,28 @@ export async function getPurchaseHistoryList(){
     }); 
     return purchases;
 }
+
+//get feedbacks list from the store
+const cf_feedBackList = firebase.functions().httpsCallable("be_feedBackList");
+export async function getFeedbacks(){
+    let feedbacks = [];
+    const result = await  cf_feedBackList();
+    result.data.forEach(data => {
+        const f = new Comment(data);
+        f.docId = data.docId;
+        feedbacks.push(f);
+    }); 
+    return feedbacks;
+}
+
+//search user account
+export async function searchFeedBackProduct(productName){
+    const feedbackList = [];
+    const snapShot = await firebase.firestore().collection(Constant.collectionName.COMMENTS).where("productName","==",productName).orderBy("timestamp", "desc").get();
+    snapShot.forEach(doc => {
+        const feedback = new Comment(doc.data());
+        feedback.docId = doc.id;
+        feedbackList.push(feedback);
+    });
+    return feedbackList;
+}
