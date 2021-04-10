@@ -64,7 +64,6 @@ export async function admin_purchases_page(){
      console.log(adminCarts[0]);
      Element.mainContent.innerHTML = html;
 
-  
     //history event listener
     const adminHistoryForms = document.getElementsByClassName("admin-purchase-history");
     for(let i=0; i < adminHistoryForms.length ; i++){
