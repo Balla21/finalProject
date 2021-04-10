@@ -108,13 +108,6 @@ function buildTransactionDetails(cart){
                 <td> ${item.qty}  </td>
                 <td> ${ Util.currency(item.qty * item.price) }  </td>
                 <td> ${item.summary}  </td>
-                
-                <td> 
-                    <form class="form-review-product" method="post">
-                        <input type="hidden" name="docId" value="${item.docId}">
-                        <button class="btn btn-outline-primary" type="submit"> Review </button>
-                    </form>
-                </td>
             </tr>
         `
      });

@@ -14,15 +14,8 @@ let productList;
 export function addEventListeners(){
     Element.formSearch.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const searchButton = Element.formSearch.getElementsByTagName("button")[0];
-        const label = Util.disableButton(searchButton);
         const searchKeyword = e.target.searchKeyword.value;
-        if (searchKeyword.length == 0){
-            Util.popupInfo("No search specified", "Enter a word to search");
-            return 
-        }
-        search_page(searchKeyword);
-        Util.enableButton(searchButton, label);
+        await search_page(searchKeyword);
     });
 
 }
