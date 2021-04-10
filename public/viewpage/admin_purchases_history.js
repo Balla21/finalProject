@@ -112,7 +112,7 @@ function buildTransactionDetails(cart){
         `
      });
      html += `</tbody></table>`;
-     html += `<div style="font-size: 150%;" >Total : ${cart.getTotalPrice()} </div>`;
+     html += `<div style="font-size: 150%;" >Total : ${Util.currency(cart.getTotalPrice())} </div>`;
 
      return html;
 }   
