@@ -61,7 +61,6 @@ export async function admin_purchases_page(){
          `
      }
      html += `</tbody></table>`;
-     console.log(adminCarts[0]);
      Element.mainContent.innerHTML = html;
 
     //history event listener

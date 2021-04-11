@@ -153,7 +153,6 @@ function buildUserCard(user){
 
 //search user
 async function search_user(searchUserName){
-    let html;
     if (!Auth.currentUser){
         Element.mainContent.innerHTML = "<h1>Protected Page</h1>"
         return
