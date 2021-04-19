@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site":"wssprint3-dbk2021", //hosting website
+    "site" : "finalproject-dbk2021",
     "public": "public",
     "ignore": [
       "firebase.json",

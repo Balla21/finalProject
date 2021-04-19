@@ -11,6 +11,7 @@ export function addEventListeners(){
     //Update the product
     Element.formEditReview.addEventListener("submit", async (e) =>{
         e.preventDefault();
+       Element.formEditReviewError.reviewCommentError.innerHTML = "";
         const button = e.target.getElementsByTagName("button")[0];
         const label = Util.disableButton(button);
         const com = new Comment({
@@ -37,7 +38,7 @@ export function addEventListeners(){
         }
         catch(e){
             if(Constant.DEV) console.log(e);
-            Util.popupInfo("Add product Failed" ,JSON.stringify(e), "modal-edit-review");
+            Util.popupInfo("Edit Review Failed" ,JSON.stringify(e), "modal-edit-review");
         }
     }
         
